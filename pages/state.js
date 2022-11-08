@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout';
 
@@ -37,16 +37,12 @@ const Student = ({ name, lastName, imgSrc }) => {
 };
 
 const StateDemo = () => {
-    let shouldHideList = false;
+    const [shouldHideList, setShouldHideList] = useState(false);
 
     const handleToggle = () => {
-        shouldHideList = !shouldHideList;
+        setShouldHideList(!shouldHideList);
         console.log(shouldHideList);
     };
-
-    if (shouldHideList) {
-        return <p>Sorry, studenti spavaju 😴 </p>;
-    }
 
     return (
         <HeaderFooterLayout>
@@ -54,11 +50,17 @@ const StateDemo = () => {
                 <h1 className="text-center mt-5 mb-5 font-bold text-4xl underline">
                     Welcome to state demo!
                 </h1>
-                <ul className="flex flex-col items-center justify-around">
-                    {studentsConstArray.map((el) => (
-                        <Student key={el.id} {...el} />
-                    ))}
-                </ul>
+                {shouldHideList ? (
+                    <p className="w-min mx-auto min-w-max">
+                        Sorry studenti spavaju 😴
+                    </p>
+                ) : (
+                    <ul className="flex flex-col items-center justify-around">
+                        {studentsConstArray.map((el) => (
+                            <Student key={el.id} {...el} />
+                        ))}
+                    </ul>
+                )}
                 <section className="flex flex-col w-64 justify-center items-center my-0 mx-auto border-gray-500">
                     <input
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
