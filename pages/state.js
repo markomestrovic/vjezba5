@@ -44,6 +44,35 @@ const StateDemo = () => {
         lastNameInputValue: '',
     });
 
+    const [filteredStudents, setFilteredStudents] = useState(state.students);
+    const [filterValue, setFilterValue] = useState('');
+    const [showShowClearButton, setShowClearButton] = useState(false);
+
+    const handleFilterChange = (e) => {
+        const { value } = e.target;
+        setFilterValue(value);
+        if (value.length > 0) {
+            setShowClearButton(true);
+        } else {
+            setShowClearButton(false);
+        }
+
+        const filteredStudents = state.students.filter((student) => {
+            return (
+                student.name.toLowerCase().includes(value.toLowerCase()) ||
+                student.lastName.toLowerCase().includes(value.toLowerCase())
+            );
+        });
+
+        setFilteredStudents(filteredStudents);
+    };
+
+    const handleClearFilter = () => {
+        setFilterValue('');
+        setShowClearButton(false);
+        setFilteredStudents(state.students);
+    };
+
     const handleToggle = () => {
         setState({
             ...state, // kopiraj sve iz state objekta
@@ -73,13 +102,13 @@ const StateDemo = () => {
                 <h1 className="text-center mt-5 mb-5 font-bold text-4xl underline">
                     Welcome to state demo!
                 </h1>
-                {state.shouldHideList ? (
+                {state.shouldHideList || filteredStudents.length <= 0 ? (
                     <p className="w-min mx-auto min-w-max">
                         Sorry studenti spavaju 😴
                     </p>
                 ) : (
                     <ul className="flex flex-col items-center justify-around">
-                        {state.students.map((el) => (
+                        {filteredStudents.map((el) => (
                             <Student key={el.id} {...el} />
                         ))}
                     </ul>
@@ -119,6 +148,24 @@ const StateDemo = () => {
                 >
                     Toggle
                 </button>
+                <section className="min-w-80 flex w-full justify-center items-center mt-12">
+                    <input
+                        value={filterValue}
+                        onChange={handleFilterChange}
+                        className="border-b-2 outline-none border-solid border-gray-500"
+                        type="text"
+                        placeholder="Filter input"
+                    />
+                    {showShowClearButton && (
+                        <button
+                            onClick={handleClearFilter}
+                            className="ml-4 rounded-md border-2 border-red-400
+                            text-red-500 py-0.5 px-4"
+                        >
+                            Clear
+                        </button>
+                    )}
+                </section>
             </main>
         </HeaderFooterLayout>
     );
