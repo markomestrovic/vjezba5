@@ -37,27 +37,34 @@ const Student = ({ name, lastName, imgSrc }) => {
 };
 
 const StateDemo = () => {
-    const [shouldHideList, setShouldHideList] = useState(false);
-    const [students, setStudents] = useState(studentsConstArray);
-
-    const [nameInputValue, setNameInputValue] = useState('');
-    const [lastNameInputValue, setLastNameInputValue] = useState('');
+    const [state, setState] = useState({
+        shouldHideList: false,
+        students: studentsConstArray,
+        nameInputValue: '',
+        lastNameInputValue: '',
+    });
 
     const handleToggle = () => {
-        setShouldHideList(!shouldHideList);
-        console.log(shouldHideList);
+        setState({
+            ...state, // kopiraj sve iz state objekta
+            shouldHideList: !state.shouldHideList, // i promijeni samo ono sto je potrebno
+        });
     };
 
     const handleSubmit = () => {
         const newStudent = {
-            id: students.length + 1,
-            name: nameInputValue,
-            lastName: lastNameInputValue,
+            id: state.students.length + 1,
+            name: state.nameInputValue,
+            lastName: state.lastNameInputValue,
             imgSrc: '/profile.jpg',
         };
 
-        setStudents([...students, newStudent]);
-        console.log(students);
+        setState({
+            ...state,
+            students: [...state.students, newStudent],
+            nameInputValue: '',
+            lastNameInputValue: '',
+        });
     };
 
     return (
@@ -66,28 +73,35 @@ const StateDemo = () => {
                 <h1 className="text-center mt-5 mb-5 font-bold text-4xl underline">
                     Welcome to state demo!
                 </h1>
-                {shouldHideList ? (
+                {state.shouldHideList ? (
                     <p className="w-min mx-auto min-w-max">
                         Sorry studenti spavaju 😴
                     </p>
                 ) : (
                     <ul className="flex flex-col items-center justify-around">
-                        {students.map((el) => (
+                        {state.students.map((el) => (
                             <Student key={el.id} {...el} />
                         ))}
                     </ul>
                 )}
                 <section className="flex flex-col w-64 justify-center items-center my-0 mx-auto border-gray-500">
                     <input
-                        value={nameInputValue}
-                        onChange={(e) => setNameInputValue(e.target.value)}
+                        value={state.nameInputValue}
+                        onChange={(e) =>
+                            setState({ ...state, nameInputValue: e.target.value })
+                        }
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Name"
                     />
                     <input
-                        value={lastNameInputValue}
-                        onChange={(e) => setLastNameInputValue(e.target.value)}
+                        value={state.lastNameInputValue}
+                        onChange={(e) =>
+                            setState({
+                                ...state,
+                                lastNameInputValue: e.target.value,
+                            })
+                        }
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Last name"
