@@ -38,10 +38,24 @@ const Student = ({ name, lastName, imgSrc }) => {
 
 const StateDemo = () => {
     const [shouldHideList, setShouldHideList] = useState(false);
+    const [students, setStudents] = useState(studentsConstArray);
 
     const handleToggle = () => {
         setShouldHideList(!shouldHideList);
         console.log(shouldHideList);
+    };
+
+    const handleSubmit = () => {
+        const newStudent = {
+            id: students.length + 1,
+            name: 'Ivo',
+            lastName: 'Ivic',
+            imgSrc: '/profile.jpg',
+        };
+
+        students.push(newStudent);
+        setStudents(students);
+        console.log(students);
     };
 
     return (
@@ -56,7 +70,7 @@ const StateDemo = () => {
                     </p>
                 ) : (
                     <ul className="flex flex-col items-center justify-around">
-                        {studentsConstArray.map((el) => (
+                        {students.map((el) => (
                             <Student key={el.id} {...el} />
                         ))}
                     </ul>
@@ -72,7 +86,10 @@ const StateDemo = () => {
                         type="text"
                         placeholder="Last name"
                     />
-                    <button className="my-5 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button
+                        onClick={handleSubmit}
+                        className="my-5 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    >
                         Submit
                     </button>
                 </section>
