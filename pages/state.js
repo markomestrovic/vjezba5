@@ -37,6 +37,17 @@ const Student = ({ name, lastName, imgSrc }) => {
 };
 
 const StateDemo = () => {
+    let shouldHideList = false;
+
+    const handleToggle = () => {
+        shouldHideList = !shouldHideList;
+        console.log(shouldHideList);
+    };
+
+    if (shouldHideList) {
+        return <p>Sorry, studenti spavaju 😴 </p>;
+    }
+
     return (
         <HeaderFooterLayout>
             <main className="py-8">
@@ -63,7 +74,10 @@ const StateDemo = () => {
                         Submit
                     </button>
                 </section>
-                <button className="block mx-auto cursor-pointer bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                <button
+                    onClick={handleToggle}
+                    className="block mx-auto cursor-pointer bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+                >
                     Toggle
                 </button>
             </main>
