@@ -40,6 +40,9 @@ const StateDemo = () => {
     const [shouldHideList, setShouldHideList] = useState(false);
     const [students, setStudents] = useState(studentsConstArray);
 
+    const [nameInputValue, setNameInputValue] = useState('');
+    const [lastNameInputValue, setLastNameInputValue] = useState('');
+
     const handleToggle = () => {
         setShouldHideList(!shouldHideList);
         console.log(shouldHideList);
@@ -48,13 +51,12 @@ const StateDemo = () => {
     const handleSubmit = () => {
         const newStudent = {
             id: students.length + 1,
-            name: 'Ivo',
-            lastName: 'Ivic',
+            name: nameInputValue,
+            lastName: lastNameInputValue,
             imgSrc: '/profile.jpg',
         };
 
-        students.push(newStudent);
-        setStudents(students);
+        setStudents([...students, newStudent]);
         console.log(students);
     };
 
@@ -77,11 +79,15 @@ const StateDemo = () => {
                 )}
                 <section className="flex flex-col w-64 justify-center items-center my-0 mx-auto border-gray-500">
                     <input
+                        value={nameInputValue}
+                        onChange={(e) => setNameInputValue(e.target.value)}
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Name"
                     />
                     <input
+                        value={lastNameInputValue}
+                        onChange={(e) => setLastNameInputValue(e.target.value)}
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Last name"
