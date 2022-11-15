@@ -3,6 +3,6 @@ export const navigationItems = [
     { label: 'About us', path: '/about' },
     { label: 'State Showcase', path: '/state' },
     { label: 'Blog', path: '' },
-    { label: 'Contact', path: '' },
     { label: 'Sign in', path: '/login' },
+    { label: 'Me', path: '/self' },
 ];
