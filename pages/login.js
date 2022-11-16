@@ -27,7 +27,8 @@ const Login = () => {
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        localStorage.getItem('isLoggedIn') === 'true');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,6 +43,8 @@ const Login = () => {
                 setError('');
                 setLoading(false);
                 alert('Login successful!');
+                setIsLoggedIn(true);
+                localStorage.setItem('isLoggedin', true);
             } else {
                 setError('Invalid credentials');
                 setLoading(false);
