@@ -45,7 +45,7 @@ const Login = () => {
                 setError('Invalid credentials');
                 setLoading(false);
             }
-        }, 1000;)
+        }, 1000);
     };
 
     return (
