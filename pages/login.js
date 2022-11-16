@@ -27,6 +27,7 @@ const Login = () => {
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,7 +52,8 @@ const Login = () => {
     return (
         <main className={styles.page}>
             <section className={styles.content}>
-                <h1 className={styles.title}>Login</h1>
+                <h1 className={styles.title}>{isLoggedIn ? 'You are logged in !': 'Log in'}</h1>
+                {!isLoggedIn && (
                 <section className={styles.form}>
                     <div className={styles.inputWrapper}>
                         <input
@@ -83,7 +85,7 @@ const Login = () => {
                             Login
                         </button>
                     )}
-                </section>
+                </section>)}
                 {error && <p className={styles.error}>{error}</p>}
             </section>
         </main>
