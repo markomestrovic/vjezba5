@@ -4,6 +4,8 @@ import Spinner from '../components/Spinner';
 
 import styles from '../styles/login.module.scss';
 
+import {safeLocalStorage} from '../helpers';
+
 const users = [
     {
         id: 1,
@@ -20,14 +22,6 @@ const users = [
         email: 'user@example.com',
     },
 ];
-
-const safeLocalStorage = {
-    getItem: (key) => typeof window !== 'undefined' && localStorage.getItem(key),
-    setItem: (key, value) =>
-        typeof window !== 'undefined' && localStorage.setItem(key, value),
-    removeItem: (key) =>
-        typeof window !== 'undefined' && localStorage.removeItem(key),
-};
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -55,7 +49,8 @@ const Login = () => {
                 setLoading(false);
                 alert('Login successful!');
                 setIsLoggedIn(true);
-                localStorage.setItem('isLoggedin', true);
+                safeLocalStorage.setItem('isLoggedin', true);
+                safeLocalStorage.setItem('user', JSON.stringify(user));
             } else {
                 setError('Invalid credentials');
                 setLoading(false);
@@ -101,6 +96,19 @@ const Login = () => {
                     )}
                 </section>)}
                 {error && <p className={styles.error}>{error}</p>}
+                {isLoggedIn && (
+                    <button
+                        onClick={() => {
+                            setIsLoggedIn(false);
+                            safeLocalStorage.removeItem('isLoggedIn');
+                            safeLocalStorage.setItem('user', JSON.stringify(user));
+                        }}
+                        className={styles.submitButton}
+                    >
+                        Logout
+                    </button>
+                    )
+                }
             </section>
         </main>
     );
