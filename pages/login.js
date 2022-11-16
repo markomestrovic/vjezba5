@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Spinner from '../components/Spinner';
 
@@ -21,14 +21,25 @@ const users = [
     },
 ];
 
+const safeLocalStorage = {
+    getItem: (key) => typeof window !== 'undefined' && localStorage.getItem(key),
+    setItem: (key, value) =>
+        typeof window !== 'undefined' && localStorage.setItem(key, value),
+    removeItem: (key) =>
+        typeof window !== 'undefined' && localStorage.removeItem(key),
+};
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(
-        localStorage.getItem('isLoggedIn') === 'true');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsLoggedIn(safeLocalStorage.getItem('isLoggedIn') === 'true');
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
