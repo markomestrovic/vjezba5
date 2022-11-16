@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import Database from '../../constants/db';
 
 const db = new Database();
-
 const JWT_SECRET = 'secret';
 
 const handler = (req, res) => {
