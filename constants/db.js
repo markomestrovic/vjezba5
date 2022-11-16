@@ -4,7 +4,7 @@ class Database {
             {
                 id: 1,
                 name: 'John Doe',
-                email: 'jhondoe@test.com',
+                email: 'johndoe@test.com',
                 // !IMPORTANT: Should be slow hashed in real world
                 password: '123456',
             },

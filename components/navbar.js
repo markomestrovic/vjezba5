@@ -2,14 +2,17 @@ import { navigationItems } from '../constants/navbar';
 import { useRouter } from 'next/router';
 
 import Link from 'next/link';
+import useAuth from '../hooks/useAuth';
 
 const NavBar = () => {
     const router = useRouter();
     const currentPage = router.pathname;
+    const { token } = useAuth();
 
     return (
         <nav className="inline-flex list-none font-medium text-hci-lila">
-            {navigationItems.map(({ label, path }) => (
+            {navigationItems.map(({ label, path, needsAuth }) =>
+                needsAuth && !token ?null : (
                 <Link href={path} key={label} passHref>
                     <li
                         key={label}
